@@ -1,0 +1,1 @@
+web: gunicorn repricing_django.wsgi --log-file -

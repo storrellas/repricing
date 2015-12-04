@@ -128,7 +128,7 @@
 				<div class="row">
 				
 					<div class="col-md-6 col-md-offset-3 text-left">
-						<form role="form" action="/dashboard/" method="POST">
+						<form id="form-calculate" role="form" action="/dashboard/" method="POST">
 						{% csrf_token %}
 							<div class="form-group">
 								<label for="email"><h3>Product Information</h3></label>
@@ -166,26 +166,25 @@
 							<div class="form-group">
 								<label for="pwd">Feedback rating:</label> 
 								<input type="text" class="form-control" id="feedback_rating" name="feedback_rating">
-							</div>
-							
+							</div>						
 							<div class="form-group text-center">
-							<button type="submit" class="btn btn-default">Calculate Buy Box Rotation Range</button>
+								<button type="button" class="btn btn-default btn-calculate">Calculate Buy Box Rotation Range</button>
 							</div>
-						</form>
+						</form>	
 					</div>
 				</div>
 				
 				<div class="row col-md-6 col-md-offset-3">
 					<div class="col-md-6">
 						<div class="form-group">
-								<label for="pwd">Suggested Minimum:</label> 
-								<input type="text" class="form-control" id="suggested_minimum">
+							<label for="pwd">Suggested Minimum:</label> 
+							<input type="text" class="form-control" id="suggested_minimum">
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-								<label for="pwd">Suggested Maximum:</label> 
-								<input type="text" class="form-control" id="suggested_maximum">
+							<label for="pwd">Suggested Maximum:</label> 
+							<input type="text" class="form-control" id="suggested_maximum">
 						</div>
 					</div>                 
                 </div>				
@@ -214,6 +213,26 @@
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+    });
+    $(document).ready(function(){
+    	$('.btn-calculate').click(function(){
+    		
+    		
+            $.ajax({
+                type: "POST",
+                url: "/dashboard/",
+                data: $("#form-calculate").serialize(),
+
+                success: function(data) {
+                    $('#suggested_minimum').val(data.minimum)
+                    $('#suggested_maximum').val(data.maximum)
+                }
+
+            })
+    		
+
+    		
+    	});
     });
        
     </script>
